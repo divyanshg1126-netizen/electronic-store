@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoltHub – Electronics Store</title>
+<meta name="description" content="Smartphones, laptops, headphones, TVs and more at great prices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== HEADER: logo, menu, search, action buttons ===== -->
+<header class="header">
+  <div class="container bar">
+    <button class="icon-btn menu-btn" data-act="menu" aria-label="Open menu">☰</button>
+    <a href="#home" class="logo" aria-label="VoltHub home">⚡ VoltHub</a>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#deals">Deals</a>
+      <a href="#shop">Shop</a>
+    </nav>
+    <input id="search" class="search" type="search" placeholder="Search phones, laptops, headphones…" aria-label="Search products" autocomplete="off">
+    <div class="actions">
+      <button class="icon-btn" id="themeBtn" data-act="theme" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn" data-act="openWish" aria-label="Open wishlist">♡<span class="badge" id="wishCount">0</span></button>
+      <button class="icon-btn" data-act="openCart" aria-label="Open cart">🛒<span class="badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="container hero-in">
+      <div>
+        <p class="eyebrow">New season sale · up to 25% off</p>
+        <h1>Next-level tech,<br><span>unbeatable prices.</span></h1>
+        <p class="lead">Phones, laptops, audio, TVs and more. Fast delivery and easy returns on everything.</p>
+        <div class="hero-btns">
+          <a class="btn" href="#shop" aria-label="Shop now">Shop Now</a>
+          <a class="btn ghost" href="#deals" aria-label="See today's deals">Today's Deals</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">📱 💻 🎧<br>📺 📷 🎮</div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORY GRID ===== -->
+  <section class="section container" id="categories">
+    <h2 class="title">Shop by Category</h2>
+    <div class="cats" id="catGrid"></div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="section container" id="featured">
+    <h2 class="title">Featured Products</h2>
+    <div class="grid" id="featuredGrid"><p class="muted">Loading products…</p></div>
+  </section>
+
+  <!-- ===== DEALS ===== -->
+  <section class="section container" id="deals">
+    <h2 class="title">🔥 Hot Deals</h2>
+    <div class="grid" id="dealsGrid"><p class="muted">Loading deals…</p></div>
+  </section>
+
+  <!-- ===== SHOP: filters + all products ===== -->
+  <section class="section container" id="shop">
+    <h2 class="title">All Products</h2>
+    <div class="filters">
+      <label>Category<select id="fCat" aria-label="Filter by category"></select></label>
+      <label>Brand<select id="fBrand" aria-label="Filter by brand"></select></label>
+      <label>Min rating
+        <select id="fRating" aria-label="Filter by minimum rating">
+          <option value="0">Any</option><option value="4">4★ &amp; up</option><option value="4.5">4.5★ &amp; up</option>
+        </select>
+      </label>
+      <label>Sort by
+        <select id="fSort" aria-label="Sort products">
+          <option value="popular">Popularity</option><option value="low">Price: low to high</option>
+          <option value="high">Price: high to low</option><option value="newest">Newest</option>
+        </select>
+      </label>
+      <label>Max price: <strong id="fPriceVal"></strong>
+        <input type="range" id="fPrice" min="0" max="2000" step="10" aria-label="Maximum price">
+      </label>
+      <button class="btn ghost" data-act="reset" aria-label="Reset all filters">Reset</button>
+    </div>
+    <p class="muted" id="resultCount" role="status"></p>
+    <div class="grid" id="shopGrid"><p class="muted">Loading products…</p></div>
+  </section>
+
+  <!-- ===== NEWSLETTER (front-end only) ===== -->
+  <section class="news" id="newsletter">
+    <div class="container">
+      <h2>Get deals in your inbox</h2>
+      <p>Join our newsletter for exclusive offers. No spam, ever.</p>
+      <form id="nlForm" class="nl" novalidate>
+        <input id="nlEmail" type="email" placeholder="you@example.com" aria-label="Email address for newsletter" aria-describedby="nlMsg">
+        <button class="btn light" type="submit" aria-label="Subscribe to newsletter">Subscribe</button>
+      </form>
+      <p id="nlMsg" class="nl-msg" role="status"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">© 2026 VoltHub. All rights reserved. · Demo store: no real payments are processed.</div>
+</footer>
+
+<!-- ===== SLIDE-OUT DRAWER (cart / wishlist) ===== -->
+<div class="backdrop" id="backdrop" data-act="close"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle">
+  <div class="drawer-head"><h2 id="drawerTitle">Your Cart</h2><button class="icon-btn" data-act="close" aria-label="Close panel">✕</button></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<!-- ===== MODAL (product details / checkout / confirmation) ===== -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Dialog">
+  <div class="modal-box">
+    <button class="icon-btn modal-x" data-act="close" aria-label="Close dialog">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== TOAST NOTIFICATIONS ===== -->
+<div id="toasts" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
